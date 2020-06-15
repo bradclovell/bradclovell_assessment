@@ -2,16 +2,13 @@
 <meta charset="utf-8">
 
 <html>
-  <head>
-    <link href="https://fonts.googleapis.com/css2?family=Mouse+Memoirs&display=swap" rel="stylesheet">
+  <head id="head">
+    <link href="https://fonts.googleapis.com/css2?family=Mouse+Memoirs&family=Poppins:ital,wght@1,800&display=swap" rel="stylesheet">
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
 
     <!-- Load d3-cloud -->
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
-
-    <!-- Create a div where the graph will take place -->
-    <div id="wordcloud"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/assessment.js"></script>
@@ -25,11 +22,16 @@
     
   </head>
   <body>
-    
-    <form onsubmit="submitSearch(); return false;">
-      <input id="search_bar" type="text" placeholder="Enter medical reaction...">
-      <input type="submit" value="Search">
+    <form class="searchform" onsubmit="submitSearch(); return false;">
+      <image class="logo" src="https://www.myhelo.com/img/myhelo_color_logo.png"></image>
+      <div>
+        <input id="search_bar" class="searchbar" type="text" placeholder="Enter medical reaction..." autocomplete="off">
+        <input class="searchbutton" type="submit" value="Search">
+      </div>
     </form>
+
+    <!-- Create a div where the graph will take place -->
+    <div id="wordcloud"></div>
   </body>
   <script type="text/javascript">
     assessment.ready();

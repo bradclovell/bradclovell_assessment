@@ -14,5 +14,5 @@ assessment.extend(component.header, component);
 component.header.prototype.decorate = function(parent) {
   var heading = document.createElement('h1');
   heading.innerText = 'myhELO Coding Assessment'
-  parent.appendChild(heading);
+  //parent.appendChild(heading);
 };

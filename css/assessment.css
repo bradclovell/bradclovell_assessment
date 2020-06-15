@@ -19,6 +19,48 @@
 
 */
 
+*{
+  justify-content: center;
+  text-align: center;
+  font-family: Poppins;
+  color: rgb(150,150,150);
+}
+
 body{
-  background-color: gray;
+  background-color: #112;
+}
+
+.searchform {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.searchbar {
+  height: 70px;
+  width: 70%;
+  min-width: 140px;
+  font-size: 40px;
+  box-sizing: border-box;
+  border: 3px solid #468fcc;
+  border-radius: 6px;
+  background-color: lightgoldenrodyellow;
+  color: #468fcc;
+}
+
+.searchbutton {
+  height: 70px;
+  width: 20%;
+  min-width: 100px;
+  font-size: 40px;
+  box-sizing: border-box;
+  border: 3px solid #468fcc;
+  border-radius: 6px;
+  background-color: #468fcc;
+  color: lightgoldenrodyellow;
+}
+
+.logo {
+  max-height: 70px;
+  vertical-align: middle;
+  padding: 10px;
 }

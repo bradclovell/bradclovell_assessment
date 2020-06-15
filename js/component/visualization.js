@@ -18,7 +18,7 @@ component.visualization.prototype.decorate = function(parent) {
 
   // Show basic loading text until the API call to the FDA completes.
   var loading = document.createElement('div');
-  loading.innerText = 'Loading...';
+  //loading.innerText = 'Loading...';
   container.appendChild(loading);
 
   /**
