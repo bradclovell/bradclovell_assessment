@@ -3,6 +3,7 @@
 
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/css2?family=Mouse+Memoirs&display=swap" rel="stylesheet">
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
 
@@ -17,14 +18,21 @@
     <script type="text/javascript" src="js/component.js"></script>
     <script type="text/javascript" src="js/component/header.js"></script>
     <script type="text/javascript" src="js/component/visualization.js"></script>
+    <script src="wordcloud.js"></script>
+    <script src="input_handler.js"></script>
     <link rel="stylesheet" type="text/css" href="css/assessment.css">
+    
     
   </head>
   <body>
-    <script type="text/javascript">
-      assessment.ready();
-    </script>
+    
+    <form onsubmit="submitSearch(); return false;">
+      <input id="search_bar" type="text" placeholder="Enter medical reaction...">
+      <input type="submit" value="Search">
+    </form>
   </body>
-  <script src="wordcloud.js"></script>
+  <script type="text/javascript">
+    assessment.ready();
+  </script>
 </html>
 

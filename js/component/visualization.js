@@ -75,16 +75,10 @@ const authKey = "J29rmYpDaiZHD3k0z5rwJOdLMhsFLdXdesOrbZl6";
 component.visualization.prototype.decorate_data = function(parent) {
   //parent.innerHTML = '<pre>' + JSON.stringify(this.data, null, '  ') + '</pre>';
 
-  //alert(JSON.stringify(this.data, null, '  '));
 
+  createGraphing("death");
 
-  /*assessment.fda_api(
-    'https://api.fda.gov/drug/label.json?search=openfda.product_type.exact:"HUMAN PRESCRIPTION DRUG"&count=openfda.route.exact',
-    function(data){
-      alert("Test query: " + data[0].term);
-    }
-  );*/
-
+  /*
   var totalCount = 0;
   for (let entry = 1; entry <= 20; entry ++){
     totalCount += this.data[entry].count;
@@ -92,13 +86,13 @@ component.visualization.prototype.decorate_data = function(parent) {
 
   var reactions = []
   for (let index = 1; index <= 20; index ++){
-    reactions.push({word: this.data[index].term, size: getCloudsize(this.data[index].term, this.data[index].count, totalCount), severity: Math.random()});
+    reactions.push({ word: this.data[index].term, size: getCloudsize(this.data[index].term, this.data[index].count, totalCount) });
   }
 
 
   //var reactions = [{word: "Running", size: "10"}, {word: "Surfing", size: "20"}, {word: "Climbing", size: "50"}, {word: "Kiting", size: "30"}, {word: "Sailing", size: "20"}, {word: "Snowboarding", size: "60"} ];
 
-  makeWordcloud(reactions);
+  makeWordcloud(reactions);*/
 };
 
 

@@ -41,6 +41,36 @@ function getCloudsize(wordText, wordCount, totalCount){
 }
 
 
+function createGraphing(searchTerm){
+
+  const regex = /\s+/g;
+  searchTerm = searchTerm.replace(regex, "+");
+
+  var returnedData;
+  
+  var query = 'https://api.fda.gov/drug/event.json?api_key=' + authKey + '&search=patient.reaction.reactionmeddrapt.exact:"' + searchTerm + '"&count=patient.reaction.reactionmeddrapt.exact'
+  assessment.fda_api(
+    query,
+    graphingCallback
+  );
+}
+
+function graphingCallback(data){
+
+  var totalCount = 0;
+  for (let entry = 1; entry <= 20; entry ++){
+    totalCount += data[entry].count;
+  }
+
+  var reactions = []
+  for (let index = 1; index <= 20; index ++){
+    reactions.push({ word: data[index].term, size: getCloudsize(data[index].term, data[index].count, totalCount) });
+  }
+
+  makeWordcloud(reactions);
+}
+
+
 var numSeverityRequestsFinished;
 
 function addSeverityEntry(data, word, numEntries){
@@ -125,6 +155,8 @@ function makeWordcloud(wordsObject){
  */
 function drawWordcloud(wordsObject){
 
+  document.getElementById("wordcloud").innerHTML = "";
+
 
   // append the svg object to the body of the page
   svg = d3.select("#wordcloud").append("svg")
@@ -188,7 +220,7 @@ function draw(words) {
         .attr("font-size", function(d) { return d.size; })
         .style("fill", function(d) {return getWordColor(d);})
         .attr("text-anchor", "middle")
-        .style("font-family", "Impact")
+        .style("font-family", "Mouse Memoirs")
         .attr("transform", function(d) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
         })
