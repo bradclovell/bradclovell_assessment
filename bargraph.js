@@ -40,7 +40,7 @@ function drawBargraph(){
   .padding(.1)
 
   svg.append("g")
-  .call(d3.axisLeft(y)).attr("fill", "white")
+  .call(d3.axisLeft(y));
 
 
   //Bars
