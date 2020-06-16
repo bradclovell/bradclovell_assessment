@@ -28,7 +28,7 @@
 }
 
 #my_dataviz * :not(.bars):not(.axislabel) {
-  fill: white;
+  fill: lightblue;
   font-size: 20px;
   font-family: Mouse Memoirs;
 }
