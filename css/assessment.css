@@ -24,6 +24,19 @@
   text-align: center;
   font-family: Poppins;
   color: rgb(150,150,150);
+  stroke: rgba(0,0,0,0);
+}
+
+#my_dataviz * :not(.bars):not(.axislabel) {
+  fill: white;
+  font-size: 20px;
+  font-family: Mouse Memoirs;
+}
+
+.axislabel{
+  font-size: 30px;
+  font-family: Mouse Memoirs;
+  fill: #468fcc;
 }
 
 body{
@@ -38,29 +51,57 @@ body{
 .searchbar {
   height: 70px;
   width: 70%;
-  min-width: 140px;
+  min-width: 200px;
   font-size: 40px;
   box-sizing: border-box;
   border: 3px solid #468fcc;
   border-radius: 6px;
-  background-color: lightgoldenrodyellow;
+  background-color: lightblue;
   color: #468fcc;
+  text-align: left;
+  padding-left: 25px;
 }
 
 .searchbutton {
   height: 70px;
   width: 20%;
-  min-width: 100px;
+  min-width: 150px;
   font-size: 40px;
   box-sizing: border-box;
   border: 3px solid #468fcc;
   border-radius: 6px;
   background-color: #468fcc;
-  color: lightgoldenrodyellow;
+  color: lightblue;
+  text-align: center;
+}
+
+.searchbutton:hover {
+  background-color: lightblue;
+  color: #468fcc;
+  cursor: pointer;
 }
 
 .logo {
   max-height: 70px;
   vertical-align: middle;
   padding: 10px;
+}
+
+#graphs_holder {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+#visuals_holder {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#pie_chart {
+
+  align-content: center;
+  height: 300px;
+  width: 400px;
+
+  background-color: lightgrey;
 }

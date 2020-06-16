@@ -12,13 +12,13 @@ var margin = {top: 10, right: 10, bottom: 10, left: 10},
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
-    width = window.innerWidth * 3/4 - margin.left - margin.right,
-    height = window.innerHeight * 3/4 - margin.top - margin.bottom;
+    width = window.innerWidth * 1/2 - margin.left - margin.right,
+    height = window.innerHeight * 7/8 - margin.top - margin.bottom;
 
 var svg;
 var layout;
 
-var textSizeModifier = 2;
+var textSizeModifier = 1.6;
 
 function getCloudsize(wordText, wordCount, totalCount){
   var finalSize;
@@ -143,6 +143,8 @@ function populateSeverityDict(numEntries){
 function makeWordcloud(wordsObject){
   myWords = wordsObject;
 
+  myWords.sort((a, b) => {return b.size - a.size});
+
   populateSeverityDict(20);
 
 }
@@ -154,6 +156,8 @@ function makeWordcloud(wordsObject){
  * @param {Object} wordsObject object takes form [{word, size, severity}, ... ]
  */
 function drawWordcloud(wordsObject){
+
+  drawBargraph();
 
   document.getElementById("wordcloud").innerHTML = "";
 
@@ -180,13 +184,13 @@ function drawWordcloud(wordsObject){
 }
 
 
-function getWordColor(wordObject){
+function getWordColor(word){
 
   let red = 1;
   let green = 1;
   let blue = 1;
 
-  let severity = severityDict[wordObject.text];
+  let severity = severityDict[word];
 
   let differenceFromCenter = Math.abs(severity - .5);
 
@@ -218,7 +222,7 @@ function draw(words) {
         .data(words)
       .enter().append("text")
         .attr("font-size", function(d) { return d.size; })
-        .style("fill", function(d) {return getWordColor(d);})
+        .style("fill", function(d) {return getWordColor(d.text);})
         .attr("text-anchor", "middle")
         .style("font-family", "Mouse Memoirs")
         .attr("transform", function(d) {

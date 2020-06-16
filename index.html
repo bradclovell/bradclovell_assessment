@@ -18,23 +18,34 @@
     <script src="wordcloud.js"></script>
     <script src="input_handler.js"></script>
     <link rel="stylesheet" type="text/css" href="css/assessment.css">
-    
-    
   </head>
   <body>
-    <form class="searchform" onsubmit="submitSearch(); return false;">
-      <image class="logo" src="https://www.myhelo.com/img/myhelo_color_logo.png"></image>
-      <div>
-        <input id="search_bar" class="searchbar" type="text" placeholder="Enter medical reaction..." autocomplete="off">
-        <input class="searchbutton" type="submit" value="Search">
-      </div>
-    </form>
+    <div>
+      <form class="searchform" onsubmit="submitSearch(); return false;">
+        <a href="https://www.myhelo.com/" target="_blank">
+          <image class="logo" src="https://www.myhelo.com/img/myhelo_color_logo.png"></image>
+        </a>
+        <div>
+          <input id="search_bar" class="searchbar" type="text" placeholder="Enter medical reaction..." autocomplete="off">
+          <input class="searchbutton" type="submit" value="Search">
+        </div>
+      </form>
+    </div>
 
+    <div id="visuals_holder">
     <!-- Create a div where the graph will take place -->
     <div id="wordcloud"></div>
+    <div id="graphs_holder">
+      <div id="my_dataviz"></div>
+      <div id="pie_chart"></div>
+    </div>
+    </div>
   </body>
+  <script src="bargraph.js"></script>
   <script type="text/javascript">
     assessment.ready();
   </script>
+
+  
 </html>
 
