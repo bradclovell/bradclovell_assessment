@@ -1,83 +1,114 @@
+//
+// Note: Some D3.js code below is based on code form the following instructional resource:
+// https://www.d3-graph-gallery.com/wordcloud
+//
 
-// List of words
-var myWords;
-// Dict that maps each word to its severity.
+
+
+// List of coreations with number of appearances.
+var coreactions;
+// Dict that maps each coreaction to its seriousness.
 var severityDict;
 
+
+// The authentication key I secured for access to the FDA API.
 const AUTH_KEY = "J29rmYpDaiZHD3k0z5rwJOdLMhsFLdXdesOrbZl6";
 
-/*
-// set the dimensions and margins of the graph
-var margin = {top: 10, right: 10, bottom: 10, left: 10},
-    width = 450 - margin.left - margin.right,
-    height = 450 - margin.top - margin.bottom;*/
-
-// set the dimensions and margins of the graph
+// Sets the dimensions and margins of the wordcloud.
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
     width = window.innerWidth * 7/16 - margin.left - margin.right,
     height = window.innerHeight * 13/16 - margin.top - margin.bottom;
 
-var svg;
-var layout;
 
-var textSizeModifier = 1.6;
+// Multiplier that modifies wordcloud text size.
+const TEXT_SIZE_MODIFIER = 1.6;
 
+/**
+ * Takes a word and its frequency and returns a processed font size for display in the word cloud.
+ * 
+ * @param {string} wordText The word itself.
+ * @param {number} wordCount The word's number of occurrences.
+ */
 function getCloudsize(wordText, wordCount){
   var finalSize;
 
+  // Total area of wordcloud
   var totalArea = width * height;
 
+  // Get linearized analogue for area
   totalArea = Math.sqrt(totalArea);
   
+  // Proportion of space that should be devoted to this word
   var proportion = wordCount/totalCount;
 
-  finalSize = proportion * totalArea * textSizeModifier / Math.sqrt(wordText.length);
+  // Get desired final size, adjusted roughly for word length
+  finalSize = proportion * totalArea * TEXT_SIZE_MODIFIER / Math.sqrt(wordText.length);
 
-
+  // Make size differences more dramatic
   finalSize = Math.pow(finalSize, 1.3);
-
 
   return finalSize;
 }
 
 
+/**
+ * Causes all three graphs to update with the appropriate search term.
+ * 
+ * @param {string} searchTerm The reaction name being searched for.
+ */
 function createGraphing(searchTerm){
 
+  // Format query properly and start the API call.
   const regex = /\s+/g;
   searchTerm = searchTerm.replace(regex, "+");
   
   var query = 'https://api.fda.gov/drug/event.json?api_key=' + AUTH_KEY + '&search=patient.reaction.reactionmeddrapt.exact:"' + searchTerm + '"&count=patient.reaction.reactionmeddrapt.exact'
   assessment.fda_api(
     query,
-    graphingCallback
+    graphingCallback // Starts process of updating the wordcloud and reaction bar graph.
   );
   
-
+  // Starts the process of updating the drug ranking data and graph.
   drawDrugGraph(searchTerm);
 }
 
+// Total count of events considered
 var totalCount;
 
+/**
+ * Callback that processes comorbid reactions query.
+ * 
+ * @param {Object} data Information returned by the initial query for comorbid reactions.
+ */
 function graphingCallback(data){
 
+  // Get count of all events among those considered.
   totalCount = 0;
   for (let entry = 1; entry <= 20; entry ++){
     totalCount += data[entry].count;
   }
 
+  // Create object of top reaction names and their frequencies.
   var reactions = []
   for (let index = 1; index <= 20; index ++){
-    //reactions.push({ word: data[index].term, size: getCloudsize(data[index].term, data[index].count, totalCount) });
-    //alert(typeof data[index].count + ", " + typeof getCloudsize(data[index].term, data[index].count, totalCount))
     reactions.push({ word: data[index].term, size: data[index].count });
   }
 
+  // Move on to graphing phase
   makeWordcloud(reactions);
 }
 
 
+// Number of queries returned so far.
 var numSeverityRequestsFinished;
 
+/**
+ * Populates the seriousness dictionary that determines wordcloud word color.
+ * 
+ * @param data Response to the seriousness query.
+ * @param word Word being queried.
+ * @param numEntries Total number of queries that need to return before moving on and displaying the graph.
+ */
 function addSeverityEntry(data, word, numEntries){
 
   let term0 = data[0].term;
@@ -103,36 +134,45 @@ function addSeverityEntry(data, word, numEntries){
   }
 
   
+  // Proportion of serious to total events
   let severity = term0Weight / (term0Weight + term1Weight);
 
+  // Create dictionary entry
   severityDict[word] = severity;
 
+
+  // Confirm that the query has been processed.
   numSeverityRequestsFinished++;
 
+  // Once all numEntries queries have been processed, move on to the drawing phase of making the wordcloud.
   if (numSeverityRequestsFinished >= numEntries){
-    //alert(severityDict);
-    /*for(let key in severityDict){
-      alert("Key: " + key + ", Entry: " + severityDict[key]);
-    }*/
-
-    drawWordcloud(myWords);
+    drawWordcloud(coreactions);
   }
 }
 
-
+/**
+ * Submit all queries for seriousness to the API
+ * 
+ * @param {number} numEntries Total number of queries that have to be made to find seriousness of all comorbid reactions.
+ */
 function populateSeverityDict(numEntries){
+  // Clear dictionary.
   severityDict = {};
 
-  myWords.forEach((wordObject) => {
+  // Create a query for each co-reaction.
+  coreactions.forEach((wordObject) => {
 
+    // Process search term properly.
     let searchTerm = wordObject.word;
     const regex = /\s+/g;
     searchTerm = searchTerm.replace(regex, "+");
     
     let query = 'https://api.fda.gov/drug/event.json?api_key=' + AUTH_KEY + '&search=patient.reaction.reactionmeddrapt.exact:"' + searchTerm + '"&count=serious';
 
+    // Reset number of queries returned to zero
     numSeverityRequestsFinished = 0;
 
+    // Call API to find seriousness.
     assessment.fda_api(
       query,
       function(data){
@@ -144,15 +184,26 @@ function populateSeverityDict(numEntries){
 
 }
 
-
+/**
+ * Starts querying API given information from the initial co-reaction query.
+ * 
+ * @param {Object} wordsObject Reactions and their frequencies
+ */
 function makeWordcloud(wordsObject){
-  myWords = wordsObject;
+  coreactions = wordsObject;
 
-  myWords.sort((a, b) => {return b.size - a.size});
+  // Sort coreactions in descending order of frequency. This is important for the bar graph to display correctly.
+  coreactions.sort((a, b) => {return b.size - a.size});
 
+  // Start submitting queries for the seriousness/color of the wordcloud words.
   populateSeverityDict(20);
 
 }
+
+
+// Variables needed to render and add the wordcloud.
+var svg;
+var layout;
 
 
 /**
@@ -162,13 +213,13 @@ function makeWordcloud(wordsObject){
  */
 function drawWordcloud(wordsObject){
 
-  drawBargraph();
-
-  //drawDrugGraph();
+  // Once the data are ready to be rendered by the wordcloud,
+  // they are also ready to be rendered by the top bargraph.
+  drawBargraph(coreactions);
 
   document.getElementById("wordcloud").innerHTML = "";
 
-  // append the svg object to the body of the page
+  // Appends the svg object to the correct HTML div.
   svg = d3.select("#wordcloud").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -176,20 +227,23 @@ function drawWordcloud(wordsObject){
     .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
   
-  // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
-  // Wordcloud features that are different from one word to the other must be here
+  // Create a layout for the wordcloud
   layout = d3.layout.cloud()
     .size([width, height])
-    .words(myWords.map(function(d) { return {text: d.word, size: getCloudsize(d.word, d.size)}; }))
+    .words(coreactions.map(function(d) { return {text: d.word, size: getCloudsize(d.word, d.size)}; }))
     .padding(4)        //space between words
-    .rotate(function(d) { return Math.floor(Math.random() * 2) * 90; })
-    .fontSize(function(d) { return d.size;  })       // font size of words
+    .rotate(function(d) { return Math.floor(Math.random() * 2) * 90; }) // Words can only be vertical or horizontal. (Other variations don't seem to look as nice for my purposes.)
+    .fontSize(function(d) { return d.size;  })
     .on("end", draw);
   layout.start();
 
 }
 
-
+/**
+ * Takes the reaction and uses the already-populated severity/seriousness dictionary to return the appropriate color.
+ * 
+ * @param {string} word Word to be colored in the wordcloud/bar graph.
+ */
 function getWordColor(word){
 
   let red = 1;
@@ -198,13 +252,14 @@ function getWordColor(word){
 
   let severity = severityDict[word];
 
+  // Difference from .5 seriousness ratio
   let differenceFromCenter = Math.abs(severity - .5);
 
 
-  //
+  // Makes color differences more obvious.
   differenceFromCenter = Math.sqrt(differenceFromCenter);
-  //
   
+  // If ratio is above .5, word is made redder, else word is made bluer
   if (severity > .5){
     green -= differenceFromCenter * 2;
     blue  -= differenceFromCenter * 2;
@@ -214,12 +269,16 @@ function getWordColor(word){
     green -= differenceFromCenter * 2;
   }
 
+  // Return as rgb color
   return "rgb(" + Math.floor(red * 256) + "," + Math.floor(green * 256) + "," + Math.floor(blue * 256) + ")";
 }
 
 
-// This function takes the output of 'layout' above and draw the words
-// Wordcloud features that are THE SAME from one word to the other can be here
+/**
+ * Callback that draws and adds the SVG using the layout generated above.
+ * 
+ * @param {Object} words Product of layout d3 operation from the drawWordCloud function.
+ */
 function draw(words) {
 
   svg
@@ -229,9 +288,9 @@ function draw(words) {
         .data(words)
       .enter().append("text")
         .attr("font-size", function(d) { return d.size; })
-        .style("fill", function(d) {return getWordColor(d.text);})
+        .style("fill", function(d) {return getWordColor(d.text);}) // Get proper word color for each word
         .attr("text-anchor", "middle")
-        .style("font-family", "Mouse Memoirs")
+        .style("font-family", "Mouse Memoirs") // Narrow font
         .attr("transform", function(d) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
         })
