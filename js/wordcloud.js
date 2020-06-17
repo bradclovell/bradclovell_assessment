@@ -14,6 +14,9 @@ var severityDict;
 // The authentication key I secured for access to the FDA API.
 const AUTH_KEY = "J29rmYpDaiZHD3k0z5rwJOdLMhsFLdXdesOrbZl6";
 
+// Number of top co-reactions to be considered and graphed.
+const NUM_RESULTS = 20;
+
 // Sets the dimensions and margins of the wordcloud.
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
     width = window.innerWidth * 7/16 - margin.left - margin.right,
@@ -84,13 +87,13 @@ function graphingCallback(data){
 
   // Get count of all events among those considered.
   totalCount = 0;
-  for (let entry = 1; entry <= 20; entry ++){
+  for (let entry = 1; entry <= NUM_RESULTS; entry ++){
     totalCount += data[entry].count;
   }
 
   // Create object of top reaction names and their frequencies.
   var reactions = []
-  for (let index = 1; index <= 20; index ++){
+  for (let index = 1; index <= NUM_RESULTS; index ++){
     reactions.push({ word: data[index].term, size: data[index].count });
   }
 
@@ -196,7 +199,7 @@ function makeWordcloud(wordsObject){
   coreactions.sort((a, b) => {return b.size - a.size});
 
   // Start submitting queries for the seriousness/color of the wordcloud words.
-  populateSeverityDict(20);
+  populateSeverityDict(NUM_RESULTS);
 
 }
 

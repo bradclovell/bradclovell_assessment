@@ -27,7 +27,8 @@ function drawDrugGraph(searchTerm){
   
 }
 
-
+// Number of top co-occurring drugs to be considered and displayed.
+const NUM_DRUGS = 20;
 
 /**
  * Callback from the associated drugs query.
@@ -38,7 +39,7 @@ function drugGraphCallback(data){
 
   // Get list of most commonly associated drugs from adverse drug events data.
   var drugs = [];
-  for (let index = 0; index < 20; index ++){
+  for (let index = 0; index < NUM_DRUGS; index ++){
     drugs.push({ word: data[index].term, size: data[index].count });
   }
 
