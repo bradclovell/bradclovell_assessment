@@ -1,12 +1,10 @@
 // set the dimensions and margins of the graph
-var bar_margin = {top: 20, right: 30, bottom: 70, left: 200},
+var bar_margin = {top: 20, right: 30, bottom: 70, left: 220},
 bar_width = window.innerWidth / 3 - bar_margin.left - bar_margin.right,
-bar_height = window.innerHeight * 7/16 - bar_margin.top - bar_margin.bottom;
+bar_height = window.innerHeight * 5/12 - bar_margin.top - bar_margin.bottom;
 
 
 function drawBargraph(){
-
-  //alert("Drawing bargraph.")
 
   document.getElementById("my_dataviz").innerHTML = "";
 
@@ -23,15 +21,15 @@ function drawBargraph(){
 
   // Add X axis
   var x = d3.scaleLinear()
-  .domain([0, data[0].size])
+  .domain([0, data[0].size / 1000]) // Data displayed in thousands
   .range([ 0, bar_width])
 
   svg.append("g")
   .attr("transform", "translate(0," + bar_height + ")")
   .call(d3.axisBottom(x))
   .selectAll("text")
-  .attr("transform", "translate(-10,5)rotate(-75)")
-  .style("text-anchor", "end");
+  .attr("transform", "translate(0,5)")
+  .style("text-anchor", "middle");
 
   // Y axis
   var y = d3.scaleBand()
@@ -50,7 +48,7 @@ function drawBargraph(){
   .append("rect")
   .attr("x", x(0) )
   .attr("y", function(d) { return y(d.word); })
-  .attr("width", function(d) { return x(d.size); })
+  .attr("width", function(d) { return x(d.size/1000); }) // Data displayed in thousands
   .attr("height", y.bandwidth() )
   .attr("fill", function(d){ return getWordColor(d.word); }).attr("class","bars")
 
@@ -61,7 +59,7 @@ function drawBargraph(){
           "translate(" + (bar_width/2) + " ," + 
                       (bar_height + bar_margin.top + 35) + ")")
   .style("text-anchor", "middle")
-  .text("# CONCOMITANT EVENTS").attr("class", "axislabel")
+  .text("# CONCOMITANT EVENTS (THOUSANDS)").attr("class", "axislabel")
 
   // text label for the y axis
   svg.append("text")

@@ -33,15 +33,60 @@
     </div>
 
     <div id="visuals_holder">
-    <!-- Create a div where the graph will take place -->
-    <div id="wordcloud"></div>
-    <div id="graphs_holder">
-      <div id="my_dataviz"></div>
-      <div id="pie_chart"></div>
-    </div>
+
+      <div class="sidebar">
+        <h1>Dear Hiring Committee</h1>
+        <p>
+          At right is my submission for the coding assessment portion of the interview process. I will explain its functionality:
+        </p>
+        <p>
+          The above search bar will accept any term that appears as a medical reaction in an FDA-reported adverse drug event (e.g. depression, pain, alopecia, death).
+          The initial display shows results for headache.
+        </p>
+        <p>
+          The wordcloud in the center shows some of the most common reactions that appear along with the search term, with sizes related to the frequency of their co-occurrence.
+          Each reaction is colored according to its seriousness, defined as the ratio of events flagged as "serious" to total events that include that reaction,
+          with red colors for more serious events and blue colors for fewer, with white representing an equal number of serious and non-serious events containing the reaction.
+        </p>
+        <p>
+
+        </p>
+        <p>
+          At right is my submission for the coding assessment portion of the interview process. I will explain its functionality:
+        </p>
+        <p>
+          The above search bar will accept any term that appears as a medical reaction in an FDA-reported adverse drug event (e.g. depression, pain, alopecia, death).
+          The initial display shows results for headache.
+        </p>
+        <p>
+          The wordcloud in the center shows some of the most common reactions that appear along with the search term, with sizes related to the frequency of their co-occurrence.
+          Each reaction is colored according to its seriousness, defined as the ratio of events flagged as "serious" to total events that include that reaction,
+          with red colors for more serious events and blue colors for fewer, with white representing an equal number of serious and non-serious events containing the reaction.
+        </p>
+        <p>
+          At right is my submission for the coding assessment portion of the interview process. I will explain its functionality:
+        </p>
+        <p>
+          The above search bar will accept any term that appears as a medical reaction in an FDA-reported adverse drug event (e.g. depression, pain, alopecia, death).
+          The initial display shows results for headache.
+        </p>
+        <p>
+          The wordcloud in the center shows some of the most common reactions that appear along with the search term, with sizes related to the frequency of their co-occurrence.
+          Each reaction is colored according to its seriousness, defined as the ratio of events flagged as "serious" to total events that include that reaction,
+          with red colors for more serious events and blue colors for fewer, with white representing an equal number of serious and non-serious events containing the reaction.
+        </p>
+      </div>
+
+      <!-- Create a div where the graph will take place -->
+      <div id="wordcloud"></div>
+      <div id="graphs_holder">
+        <div id="my_dataviz" class="bar_graphs"></div>
+        <div id="drug_graph" class="bar_graphs"></div>
+      </div>
     </div>
   </body>
   <script src="bargraph.js"></script>
+  <script src="drug_ranking.js"></script>
   <script type="text/javascript">
     assessment.ready();
   </script>

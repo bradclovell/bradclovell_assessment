@@ -12,7 +12,7 @@ var margin = {top: 10, right: 10, bottom: 10, left: 10},
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
-    width = window.innerWidth * 1/2 - margin.left - margin.right,
+    width = window.innerWidth * 7/16 - margin.left - margin.right,
     height = window.innerHeight * 7/8 - margin.top - margin.bottom;
 
 var svg;
@@ -20,7 +20,7 @@ var layout;
 
 var textSizeModifier = 1.6;
 
-function getCloudsize(wordText, wordCount, totalCount){
+function getCloudsize(wordText, wordCount){
   var finalSize;
 
   var totalArea = width * height;
@@ -33,8 +33,6 @@ function getCloudsize(wordText, wordCount, totalCount){
 
 
   finalSize = Math.pow(finalSize, 1.3);
-
-  //this.data[index].count/totalCount * 200
 
 
   return finalSize;
@@ -53,18 +51,24 @@ function createGraphing(searchTerm){
     query,
     graphingCallback
   );
+
+  drawDrugGraph(searchTerm);
 }
+
+var totalCount;
 
 function graphingCallback(data){
 
-  var totalCount = 0;
+  totalCount = 0;
   for (let entry = 1; entry <= 20; entry ++){
     totalCount += data[entry].count;
   }
 
   var reactions = []
   for (let index = 1; index <= 20; index ++){
-    reactions.push({ word: data[index].term, size: getCloudsize(data[index].term, data[index].count, totalCount) });
+    //reactions.push({ word: data[index].term, size: getCloudsize(data[index].term, data[index].count, totalCount) });
+    //alert(typeof data[index].count + ", " + typeof getCloudsize(data[index].term, data[index].count, totalCount))
+    reactions.push({ word: data[index].term, size: data[index].count });
   }
 
   makeWordcloud(reactions);
@@ -159,8 +163,9 @@ function drawWordcloud(wordsObject){
 
   drawBargraph();
 
-  document.getElementById("wordcloud").innerHTML = "";
+  //drawDrugGraph();
 
+  document.getElementById("wordcloud").innerHTML = "";
 
   // append the svg object to the body of the page
   svg = d3.select("#wordcloud").append("svg")
@@ -174,10 +179,10 @@ function drawWordcloud(wordsObject){
   // Wordcloud features that are different from one word to the other must be here
   layout = d3.layout.cloud()
     .size([width, height])
-    .words(myWords.map(function(d) { return {text: d.word, size:d.size}; }))
+    .words(myWords.map(function(d) { return {text: d.word, size: getCloudsize(d.word, d.size)}; }))
     .padding(4)        //space between words
     .rotate(function(d) { return Math.floor(Math.random() * 2) * 90; })
-    .fontSize(function(d) { return d.size; })      // font size of words
+    .fontSize(function(d) { return d.size;  })       // font size of words
     .on("end", draw);
   layout.start();
 
@@ -215,6 +220,7 @@ function getWordColor(word){
 // This function takes the output of 'layout' above and draw the words
 // Wordcloud features that are THE SAME from one word to the other can be here
 function draw(words) {
+
   svg
     .append("g")
       .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
@@ -229,4 +235,5 @@ function draw(words) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
         })
         .text(function(d) { return d.text; });
+  
 }

@@ -76,7 +76,7 @@ component.visualization.prototype.decorate_data = function(parent) {
   //parent.innerHTML = '<pre>' + JSON.stringify(this.data, null, '  ') + '</pre>';
 
 
-  createGraphing("death");
+  createGraphing("headache");
 
   /*
   var totalCount = 0;
