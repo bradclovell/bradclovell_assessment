@@ -6,8 +6,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Mouse+Memoirs&family=Poppins:ital,wght@1,800&display=swap" rel="stylesheet">
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
-
-    <!-- Load d3-cloud -->
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -46,38 +44,36 @@
         <p>
           The wordcloud in the center shows some of the most common reactions that appear along with the search term, with sizes related to the frequency of their co-occurrence.
           Each reaction is colored according to its seriousness, defined as the ratio of events flagged as "serious" to total events that include that reaction,
-          with red colors for more serious events and blue colors for fewer, with white representing an equal number of serious and non-serious events containing the reaction.
+          with redder colors for more serious events and bluer colors for fewer, with white representing an equal number of serious and non-serious events containing the reaction.
         </p>
         <p>
-
+          The top bar graph shows the same data, but in a more explicitly structured manner, with the bars colored instead of the reactions.
         </p>
         <p>
-          At right is my submission for the coding assessment portion of the interview process. I will explain its functionality:
+          The lower bar graph shows a list of the most common drugs reported in the events containing the searched reaction.
+          Note that while these drugs were part of the same reported drug reaction event, the FDA does not require a causal relationship to be established, and most events list multiple drugs.
+          For example, aspirin appears near the top of many graphs, but it may be another drug in the reported events
+          - or even the underlying condition for which it was prescribed - that is causing the observed reaction.
+        </p>
+        <h1>
+          Technical Details
+        </h1>
+        <p>
+          This webpage contains code to create customizable queries to the FDA's Drug API Adverse Events Endpoint.
+          Once a search term is entered, it submits a query to find the most commonly co-occurring reactions.
+          After ignoring the most common co-reaction (the reaction itself), it submits a query for each of the top 20 co-reactions
+          to see how many events containing the given reaction were flagged as serious and how many were flagged as non-serious.
+          After the callback function for these queries is called for the final time, the wordcloud and top graph are drawn.
+          In parallel with the first query, another query is sent to determine the 20 drugs that appear most frequently in
+          events containing the searched reaction, and the lower graph is then drawn.
         </p>
         <p>
-          The above search bar will accept any term that appears as a medical reaction in an FDA-reported adverse drug event (e.g. depression, pain, alopecia, death).
-          The initial display shows results for headache.
-        </p>
-        <p>
-          The wordcloud in the center shows some of the most common reactions that appear along with the search term, with sizes related to the frequency of their co-occurrence.
-          Each reaction is colored according to its seriousness, defined as the ratio of events flagged as "serious" to total events that include that reaction,
-          with red colors for more serious events and blue colors for fewer, with white representing an equal number of serious and non-serious events containing the reaction.
-        </p>
-        <p>
-          At right is my submission for the coding assessment portion of the interview process. I will explain its functionality:
-        </p>
-        <p>
-          The above search bar will accept any term that appears as a medical reaction in an FDA-reported adverse drug event (e.g. depression, pain, alopecia, death).
-          The initial display shows results for headache.
-        </p>
-        <p>
-          The wordcloud in the center shows some of the most common reactions that appear along with the search term, with sizes related to the frequency of their co-occurrence.
-          Each reaction is colored according to its seriousness, defined as the ratio of events flagged as "serious" to total events that include that reaction,
-          with red colors for more serious events and blue colors for fewer, with white representing an equal number of serious and non-serious events containing the reaction.
+          The data are interpreted and processed in code, and their graphs are rendered using the D3.js library,
+          with Jason Davies' d3-cloud addition for the wordcloud.
         </p>
       </div>
 
-      <!-- Create a div where the graph will take place -->
+
       <div id="wordcloud"></div>
       <div id="graphs_holder">
         <div id="my_dataviz" class="bar_graphs"></div>

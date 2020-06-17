@@ -54,12 +54,12 @@ function drawBargraph(){
 
 
   // text label for the x axis
-  svg.append("text")             
+  svg.append("text")
   .attr("transform",
           "translate(" + (bar_width/2) + " ," + 
                       (bar_height + bar_margin.top + 35) + ")")
   .style("text-anchor", "middle")
-  .text("# CONCOMITANT EVENTS (THOUSANDS)").attr("class", "axislabel")
+  .text("# CO-OCCURRING EVENTS (THOUSANDS)").attr("class", "axislabel")
 
   // text label for the y axis
   svg.append("text")

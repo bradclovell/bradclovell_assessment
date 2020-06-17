@@ -115,7 +115,7 @@ function printDrugGraph(){
   .attr("x",0 - (drug_height / 2))
   .attr("dy", "1em")
   .style("text-anchor", "middle")
-  .text("DRUG REACTION SYMPTOM").attr("class", "axislabel")
+  .text("DRUG SUBSTANCE").attr("class", "axislabel")
 
 }
 
