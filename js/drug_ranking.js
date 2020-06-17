@@ -8,7 +8,7 @@ function drawDrugGraph(searchTerm){
 
   var returnedData;
   
-  var query = 'https://api.fda.gov/drug/event.json?api_key=' + authKey + '&search=patient.reaction.reactionmeddrapt.exact:"' + searchTerm + '"&count=patient.drug.openfda.substance_name.exact';
+  var query = 'https://api.fda.gov/drug/event.json?api_key=' + AUTH_KEY + '&search=patient.reaction.reactionmeddrapt.exact:"' + searchTerm + '"&count=patient.drug.openfda.substance_name.exact';
   assessment.fda_api(
     query,
     drugGraphCallback

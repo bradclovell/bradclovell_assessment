@@ -4,17 +4,15 @@
 <html>
   <head id="head">
     <link href="https://fonts.googleapis.com/css2?family=Mouse+Memoirs&family=Poppins:ital,wght@1,800&display=swap" rel="stylesheet">
-    <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/assessment.js"></script>
     <script type="text/javascript" src="js/component.js"></script>
     <script type="text/javascript" src="js/component/header.js"></script>
     <script type="text/javascript" src="js/component/visualization.js"></script>
-    <script src="wordcloud.js"></script>
-    <script src="input_handler.js"></script>
+    <script src="js/wordcloud.js"></script>
+    <script src="js/input_handler.js"></script>
     <link rel="stylesheet" type="text/css" href="css/assessment.css">
   </head>
   <body>
@@ -82,13 +80,14 @@
 
       <div id="wordcloud"></div>
       <div id="graphs_holder">
-        <div id="my_dataviz" class="bar_graphs"></div>
+        <div id="reaction_graph" class="bar_graphs"></div>
         <div id="drug_graph" class="bar_graphs"></div>
       </div>
     </div>
   </body>
-  <script src="bargraph.js"></script>
-  <script src="drug_ranking.js"></script>
+
+  <script src="js/bargraph.js"></script>
+  <script src="js/drug_ranking.js"></script>
   <script type="text/javascript">
     assessment.ready();
   </script>

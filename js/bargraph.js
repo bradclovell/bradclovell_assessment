@@ -6,10 +6,10 @@ bar_height = window.innerHeight * 5/12 - bar_margin.top - bar_margin.bottom;
 
 function drawBargraph(){
 
-  document.getElementById("my_dataviz").innerHTML = "";
+  document.getElementById("reaction_graph").innerHTML = "";
 
   // append the svg object to the body of the page
-  var svg = d3.select("#my_dataviz")
+  var svg = d3.select("#reaction_graph")
   .append("svg")
   .attr("width", bar_width + bar_margin.left + bar_margin.right)
   .attr("height", bar_height + bar_margin.top + bar_margin.bottom)

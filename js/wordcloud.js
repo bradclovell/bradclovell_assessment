@@ -4,6 +4,8 @@ var myWords;
 // Dict that maps each word to its severity.
 var severityDict;
 
+const AUTH_KEY = "J29rmYpDaiZHD3k0z5rwJOdLMhsFLdXdesOrbZl6";
+
 /*
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
@@ -13,7 +15,7 @@ var margin = {top: 10, right: 10, bottom: 10, left: 10},
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
     width = window.innerWidth * 7/16 - margin.left - margin.right,
-    height = window.innerHeight * 7/8 - margin.top - margin.bottom;
+    height = window.innerHeight * 13/16 - margin.top - margin.bottom;
 
 var svg;
 var layout;
@@ -43,14 +45,13 @@ function createGraphing(searchTerm){
 
   const regex = /\s+/g;
   searchTerm = searchTerm.replace(regex, "+");
-
-  var returnedData;
   
-  var query = 'https://api.fda.gov/drug/event.json?api_key=' + authKey + '&search=patient.reaction.reactionmeddrapt.exact:"' + searchTerm + '"&count=patient.reaction.reactionmeddrapt.exact'
+  var query = 'https://api.fda.gov/drug/event.json?api_key=' + AUTH_KEY + '&search=patient.reaction.reactionmeddrapt.exact:"' + searchTerm + '"&count=patient.reaction.reactionmeddrapt.exact'
   assessment.fda_api(
     query,
     graphingCallback
   );
+  
 
   drawDrugGraph(searchTerm);
 }
@@ -128,7 +129,7 @@ function populateSeverityDict(numEntries){
     const regex = /\s+/g;
     searchTerm = searchTerm.replace(regex, "+");
     
-    let query = 'https://api.fda.gov/drug/event.json?api_key=' + authKey + '&search=patient.reaction.reactionmeddrapt.exact:"' + searchTerm + '"&count=serious';
+    let query = 'https://api.fda.gov/drug/event.json?api_key=' + AUTH_KEY + '&search=patient.reaction.reactionmeddrapt.exact:"' + searchTerm + '"&count=serious';
 
     numSeverityRequestsFinished = 0;
 

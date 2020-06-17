@@ -110,6 +110,18 @@ body{
   grid-template-rows: 1fr 1fr;
 }
 
+#wordcloud {
+  border: 5px solid #468fcc;
+}
+
+#reaction_graph {
+  border: 5px solid #468fcc;
+}
+
+#drug_graph {
+  border: 5px solid #468fcc;
+}
+
 #visuals_holder {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
