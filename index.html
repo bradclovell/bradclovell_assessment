@@ -61,7 +61,7 @@
         <p>
           This webpage contains code to create customizable queries to the FDA's Drug API Adverse Events Endpoint.
           Once a search term is entered, it submits a query to find the most commonly co-occurring reactions.
-          After ignoring the most common co-reaction (the reaction itself), it submits a query for each of the top 20 co-reactions
+          After ignoring the first result (the reaction itself), it submits a query for each of the top 20 co-reactions
           to see how many events containing the given reaction were flagged as serious and how many were flagged as non-serious.
           After the callback function for these queries is called for the final time, the wordcloud and top graph are drawn.
           In parallel with the first query, another query is sent to determine the 20 drugs that appear most frequently in
@@ -71,6 +71,12 @@
           The data are interpreted and processed in code, and their graphs are rendered using the D3.js library,
           with Jason Davies' d3-cloud addition for the wordcloud.
         </p>
+        <h1>
+          Thank you for your time and consideration!
+        </h1>
+        <h1>
+          - Bradley Lovell
+        </h1>
       </div>
 
 
